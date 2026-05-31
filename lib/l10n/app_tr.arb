@@ -43,6 +43,8 @@
   "buttonUseRecommendedPrice": "Önerilen Fiyatı Kullan",
   "labelElasticity": "Esneklik",
   "labelSaleProbability": "Satış olasılığı",
+  "stockExhaustedTitle": "Stok bitti!",
+  "stockExhaustedBody": "Tüm raflar boş. Gün erken kapatılıyor.",
 
   "prepTitle": "Gün {shift} hazırlığı",
   "@prepTitle": {

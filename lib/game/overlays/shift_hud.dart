@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/gen/app_localizations.dart';
 import '../../models/customer_model.dart';
 import '../../services/bcoin_formatter.dart';
 import '../../theme/app_theme.dart';
@@ -68,6 +69,64 @@ class ShiftHud extends StatelessWidget {
   }
 
   Widget _customerCard(BuildContext context) {
+    // §13.2 stok=0 erken kapanma overlay'i — diğer signal'lardan önce
+    // bakılır, çünkü stockExhausted true iken customer da null olur ve
+    // "Sıradaki müşteri geliyor…" boş mesajı görünmemeli.
+    return ValueListenableBuilder<bool>(
+      valueListenable: game.signals.stockExhausted,
+      builder: (context, exhausted, __) {
+        if (exhausted) return _stockExhaustedCard(context);
+        return _customerCardActive(context);
+      },
+    );
+  }
+
+  Widget _stockExhaustedCard(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return SizedBox(
+      height: 150,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: AppColors.patienceLow.withValues(alpha: 0.5),
+              width: 1.5,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('📦', style: TextStyle(fontSize: 36)),
+              const SizedBox(height: 4),
+              Text(
+                l.stockExhaustedTitle,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.patienceLow,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                l.stockExhaustedBody,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: AppColors.inkSoft,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _customerCardActive(BuildContext context) {
     return ValueListenableBuilder<Customer?>(
       valueListenable: game.signals.customer,
       builder: (context, customer, __) {

@@ -68,6 +68,11 @@ class CashierGame extends FlameGame {
   double _elapsed = 0;
   bool _shiftOver = false;
 
+  /// `true` olduğunda raf+depo tüm ürünlerde tükenmiş demektir. HUD
+  /// "Stok bitti" overlay'i gösterir; motor kısa bir bekleyişten sonra
+  /// `_endShift()` çağırır (kullanıcı yalnız boş kuyruk seyretmesin).
+  bool _stockExhausted = false;
+
   // --- müşteri durumu ---
   Customer? _active;
   final List<Product> _remaining = [];
@@ -157,7 +162,9 @@ class CashierGame extends FlameGame {
       _gapTimer -= dt;
       if (_gapTimer <= 0) {
         _inGap = false;
-        if (remaining <= 0) {
+        // §13.2 — stok bittiyse "Stok bitti" mesajı gösterildi, şimdi kapat.
+        // Süre bittiyse normal kapanma.
+        if (_stockExhausted || remaining <= 0) {
           _endShift();
         } else {
           _spawnCustomer();
@@ -183,9 +190,13 @@ class CashierGame extends FlameGame {
   void _spawnCustomer() {
     final customer = _generateCustomer();
     if (customer == null) {
-      // Hiçbir üründe stok yok — kısa bir bekleyişten sonra tekrar dene.
+      // §13.2 — hiçbir üründe raf stoğu yok = stok bitti. Önceden sonsuza
+      // kadar boş bekleniyordu (kullanıcı süre dolana kadar oturuyordu).
+      // Artık: HUD'a sinyal gönder, 2 sn mesaj göster, sonra günü kapat.
+      _stockExhausted = true;
+      signals.stockExhausted.value = true;
       _inGap = true;
-      _gapTimer = 1.5;
+      _gapTimer = 2.0;
       return;
     }
     _active = customer;

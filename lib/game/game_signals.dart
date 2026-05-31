@@ -57,6 +57,11 @@ class GameSignals {
     null,
   );
 
+  /// Gün ortasında tüm ürünlerin raf+depo stoğu 0'a düştü.
+  /// HUD bunu görünce "Stok bitti — gün kapatılıyor" overlay'i gösterir;
+  /// motor kısa bir gecikme sonrası `_endShift()` çağırır.
+  final ValueNotifier<bool> stockExhausted = ValueNotifier<bool>(false);
+
   void dispose() {
     timeLeft.dispose();
     shiftNet.dispose();
@@ -65,5 +70,6 @@ class GameSignals {
     customer.dispose();
     combo.dispose();
     payment.dispose();
+    stockExhausted.dispose();
   }
 }

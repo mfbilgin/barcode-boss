@@ -232,6 +232,18 @@ abstract class AppLocalizations {
   /// **'Satış olasılığı'**
   String get labelSaleProbability;
 
+  /// No description provided for @stockExhaustedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok bitti!'**
+  String get stockExhaustedTitle;
+
+  /// No description provided for @stockExhaustedBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm raflar boş. Gün erken kapatılıyor.'**
+  String get stockExhaustedBody;
+
   /// No description provided for @prepTitle.
   ///
   /// In tr, this message translates to:

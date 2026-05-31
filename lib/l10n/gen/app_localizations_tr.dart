@@ -87,6 +87,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get labelSaleProbability => 'Satış olasılığı';
 
   @override
+  String get stockExhaustedTitle => 'Stok bitti!';
+
+  @override
+  String get stockExhaustedBody => 'Tüm raflar boş. Gün erken kapatılıyor.';
+
+  @override
   String prepTitle(int shift) {
     return 'Gün $shift hazırlığı';
   }
