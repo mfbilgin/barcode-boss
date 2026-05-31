@@ -52,22 +52,39 @@ storeFile=C:/Users/PC/keystores/barcode-boss-release.jks
 ## 3. Release APK build
 
 ```bash
-flutter build apk --release
+flutter build apk --release                # universal (~58 MB)
+flutter build apk --release --split-per-abi   # ABI başına 3 APK
 ```
 
-Çıktı: `build/app/outputs/flutter-apk/app-release.apk` (~50 MB civarı,
-Flame + Firebase + assets dahil).
+Flutter çıktısı `build/app/outputs/flutter-apk/` altına şu isimlerle düşer:
+- `app-armeabi-v7a-release.apk` (eski 32-bit telefonlar, ~24 MB)
+- `app-arm64-v8a-release.apk` (modern telefonların %95'i, ~26 MB)
+- `app-x86_64-release.apk` (yalnız emülatör, ~27 MB)
+- `app-release.apk` (universal, ~58 MB)
 
-**Cihaz başına ABI'ye göre küçültmek için:**
-```bash
-flutter build apk --release --split-per-abi
+### 3.1 Rename — release upload için kullanıcı dostu isim
+
+Yukarıdaki isimler çirkin. Bir PowerShell scripti onları yeniden adlandırır
+ve `build/release-uploads/` altına kopyalar:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/prepare-release-apks.ps1
 ```
+
 Çıktı:
-- `app-armeabi-v7a-release.apk` (eski 32-bit telefonlar)
-- `app-arm64-v8a-release.apk` (modern telefonların %95'i — tester'a bunu yolla)
-- `app-x86_64-release.apk` (yalnız emülatör)
+```
+build/release-uploads/
+  barcode-boss-arm32.apk        # ~24 MB
+  barcode-boss-arm64.apk        # ~26 MB (tester'a önerilen)
+  barcode-boss-universal.apk    # ~58 MB
+```
 
-`arm64-v8a` ~18-22 MB olur.
+Dosya adında **versiyon yok** — Pages'teki `/latest/download/<name>` URL
+her release'te aynı dosya adıyla çalışır, tester'a paylaştığın link
+bozulmaz.
+
+> `app-x86_64-release.apk` kasıtlı olarak release'e konmaz; sadece
+> emülatör için, tester'a faydası yok.
 
 ## 4. APK doğrulama
 
