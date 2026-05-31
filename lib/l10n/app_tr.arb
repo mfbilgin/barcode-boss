@@ -5,18 +5,18 @@
 
   "labelBalance": "Bakiye",
   "labelLevel": "Seviye",
-  "levelAndShift": "{level} · Vardiya {shift}",
+  "levelAndShift": "{level} · Gün {shift}",
   "@levelAndShift": {
     "placeholders": {
       "level": {"type": "int"},
       "shift": {"type": "int"}
     }
   },
-  "buttonStartShift": "Vardiyaya Başla",
+  "buttonStartShift": "Güne Başla",
   "buttonNewGame": "Yeni Oyun (sıfırla)",
   "tooltipSettings": "Ayarlar",
 
-  "prepTitle": "Vardiya {shift} hazırlığı",
+  "prepTitle": "Gün {shift} hazırlığı",
   "@prepTitle": {
     "placeholders": {"shift": {"type": "int"}}
   },
@@ -24,7 +24,7 @@
   "tabOrders": "Sipariş",
   "tabPricing": "Fiyat",
   "tabReport": "Önceki Rapor",
-  "buttonStartShiftUpper": "VARDİYAYI BAŞLAT",
+  "buttonStartShiftUpper": "GÜNE BAŞLA",
 
   "settingsTitle": "Ayarlar",
   "sectionSound": "Ses",
@@ -53,22 +53,22 @@
   "labelNet": "Net kâr",
   "labelXp": "XP",
   "buttonBackToPrep": "Hazırlık Ekranına Dön",
-  "emptyShiftRecord": "Henüz tamamlanmış vardiya yok.",
+  "emptyShiftRecord": "Henüz tamamlanmış gün yok.",
 
   "labelTutorialBonus": "Yeni başlayan bonusu",
   "labelAdvanceRepayment": "Avans geri ödemesi",
   "labelEmergencyAdvance": "Acil avans",
 
   "emergencyAdvanceDialogTitle": "Acil avans aldın!",
-  "emergencyAdvanceDialogBody": "{amount} bakiyene eklendi. Sonraki 3 vardiyada net kazancının %20'si kesilecek (vardiya başına max 🪙 200).",
+  "emergencyAdvanceDialogBody": "{amount} bakiyene eklendi. Sonraki 3 günde net kazancının %20'si kesilecek (gün başına max 🪙 200).",
   "@emergencyAdvanceDialogBody": {
     "placeholders": {"amount": {"type": "String"}}
   },
   "emergencyAdvanceDialogClose": "Anladım",
 
   "stockZeroDialogTitle": "Tüm stoğun bitti",
-  "stockZeroDialogBody": "Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt.",
-  "stockZeroDialogBodyWithAdvance": "Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik {amount} avans verildi.",
+  "stockZeroDialogBody": "Günü başlatamazsın. Önce Sipariş sekmesinden mal getirt.",
+  "stockZeroDialogBodyWithAdvance": "Günü başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik {amount} avans verildi.",
   "@stockZeroDialogBodyWithAdvance": {
     "placeholders": {"amount": {"type": "String"}}
   },

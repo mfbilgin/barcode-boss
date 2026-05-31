@@ -164,7 +164,7 @@ class _PrepScreenState extends ConsumerState<PrepScreen>
               step: TutorialStep.prepTabs,
               title: 'Hazırlık ekranı',
               body:
-                  'Stok / Sipariş / Fiyat sekmeleriyle dükkânı yönet. Sipariş bir sonraki vardiyada teslim edilir.',
+                  'Stok / Sipariş / Fiyat sekmeleriyle dükkânı yönet. Sipariş günün başında ("Güne Başla" anında) teslim edilir.',
             ),
             Expanded(
               child: TabBarView(

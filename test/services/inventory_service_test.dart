@@ -65,7 +65,10 @@ void main() {
     expect(svc.get('bread')!.shelfQty, 0);
   });
 
-  test('placeOrder + processDeliveries depoya iner', () async {
+  test('placeOrder + processDeliveries — aynı gün başında teslim', () async {
+    // Davranış: hazırlıkta verilen sipariş O gün başlangıcında teslim
+    // edilir (placedShiftNumber <= currentShiftNumber). Önceki sürümde
+    // sonraki güne kalıyordu — playtest'te kafa karıştırıcı bulundu.
     final svc = await InventoryService.open();
     svc.seedMissing(_twoProductCatalog(), 1);
     svc.placeOrder(
@@ -78,18 +81,32 @@ void main() {
     );
     expect(svc.pendingOrders().length, 1);
 
-    // Aynı vardiyada teslim edilmez.
-    final delivered1 = svc.processDeliveries(1);
-    expect(delivered1, isEmpty);
-
-    // Sonraki vardiyada teslim edilir.
-    final delivered2 = svc.processDeliveries(2);
-    expect(delivered2.length, 1);
+    // Gün 1 hazırlığında verilen sipariş, gün 1 başında teslim edilir.
+    final delivered = svc.processDeliveries(1);
+    expect(delivered.length, 1);
     expect(
       svc.get('bread')!.warehouseQty,
       InventoryService.seedWarehouseQty + 50,
     );
     expect(svc.pendingOrders(), isEmpty);
+  });
+
+  test('processDeliveries — gelecek günlerin siparişleri beklemede kalır',
+      () async {
+    final svc = await InventoryService.open();
+    svc.seedMissing(_twoProductCatalog(), 1);
+    // Gün 5 için sipariş — şu an gün 2 başında.
+    svc.placeOrder(
+      const PendingOrder(
+        productId: 'bread',
+        quantity: 30,
+        placedShiftNumber: 5,
+        costPaidKurus: 3750,
+      ),
+    );
+    final delivered = svc.processDeliveries(2);
+    expect(delivered, isEmpty);
+    expect(svc.pendingOrders().length, 1);
   });
 
   test('moveAllWarehouseToShelf depoyu boşaltır, rafa ekler', () async {

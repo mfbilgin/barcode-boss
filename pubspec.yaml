@@ -4,7 +4,7 @@ publish_to: 'none'
 
 # Semantic versioning: major.minor.patch+buildNumber
 # v0.1.0 = Faz 0 setup tamamlandığında ilk runnable iskelet
-version: 0.1.1+2
+version: 0.1.2+3
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

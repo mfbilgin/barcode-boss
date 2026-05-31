@@ -41,7 +41,7 @@ class HomeScreen extends ConsumerWidget {
                 step: TutorialStep.welcome,
                 title: 'Hoş geldin!',
                 body:
-                    'Vardiya başlayınca müşteriler sırayla gelecek. Ürünün üstünde sola doğru kaydır (Tap modu Ayarlar\'da).',
+                    'Gün başlayınca müşteriler sırayla gelecek. Ürünün üstünde sola doğru kaydır (Tap modu Ayarlar\'da).',
               ),
             ),
             Center(

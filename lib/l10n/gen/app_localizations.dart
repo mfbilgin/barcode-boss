@@ -121,13 +121,13 @@ abstract class AppLocalizations {
   /// No description provided for @levelAndShift.
   ///
   /// In tr, this message translates to:
-  /// **'{level} · Vardiya {shift}'**
+  /// **'{level} · Gün {shift}'**
   String levelAndShift(int level, int shift);
 
   /// No description provided for @buttonStartShift.
   ///
   /// In tr, this message translates to:
-  /// **'Vardiyaya Başla'**
+  /// **'Güne Başla'**
   String get buttonStartShift;
 
   /// No description provided for @buttonNewGame.
@@ -145,7 +145,7 @@ abstract class AppLocalizations {
   /// No description provided for @prepTitle.
   ///
   /// In tr, this message translates to:
-  /// **'Vardiya {shift} hazırlığı'**
+  /// **'Gün {shift} hazırlığı'**
   String prepTitle(int shift);
 
   /// No description provided for @tabStock.
@@ -175,7 +175,7 @@ abstract class AppLocalizations {
   /// No description provided for @buttonStartShiftUpper.
   ///
   /// In tr, this message translates to:
-  /// **'VARDİYAYI BAŞLAT'**
+  /// **'GÜNE BAŞLA'**
   String get buttonStartShiftUpper;
 
   /// No description provided for @settingsTitle.
@@ -337,7 +337,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyShiftRecord.
   ///
   /// In tr, this message translates to:
-  /// **'Henüz tamamlanmış vardiya yok.'**
+  /// **'Henüz tamamlanmış gün yok.'**
   String get emptyShiftRecord;
 
   /// No description provided for @labelTutorialBonus.
@@ -367,7 +367,7 @@ abstract class AppLocalizations {
   /// No description provided for @emergencyAdvanceDialogBody.
   ///
   /// In tr, this message translates to:
-  /// **'{amount} bakiyene eklendi. Sonraki 3 vardiyada net kazancının %20\'si kesilecek (vardiya başına max 🪙 200).'**
+  /// **'{amount} bakiyene eklendi. Sonraki 3 günde net kazancının %20\'si kesilecek (gün başına max 🪙 200).'**
   String emergencyAdvanceDialogBody(String amount);
 
   /// No description provided for @emergencyAdvanceDialogClose.
@@ -385,13 +385,13 @@ abstract class AppLocalizations {
   /// No description provided for @stockZeroDialogBody.
   ///
   /// In tr, this message translates to:
-  /// **'Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt.'**
+  /// **'Günü başlatamazsın. Önce Sipariş sekmesinden mal getirt.'**
   String get stockZeroDialogBody;
 
   /// No description provided for @stockZeroDialogBodyWithAdvance.
   ///
   /// In tr, this message translates to:
-  /// **'Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik {amount} avans verildi.'**
+  /// **'Günü başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik {amount} avans verildi.'**
   String stockZeroDialogBodyWithAdvance(String amount);
 
   /// No description provided for @stockZeroDialogClose.

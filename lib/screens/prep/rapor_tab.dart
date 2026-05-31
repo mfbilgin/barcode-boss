@@ -17,7 +17,7 @@ class RaporTab extends ConsumerWidget {
         child: Padding(
           padding: EdgeInsets.all(24),
           child: Text(
-            'Henüz tamamlanmış vardiya yok.\nİlk vardiyanı başlatıp burada raporu gör.',
+            'Henüz tamamlanmış gün yok.\nİlk günü başlatıp burada raporu gör.',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.inkSoft),
           ),
@@ -37,7 +37,7 @@ class RaporTab extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                'Vardiya ${record.shiftNumber} özeti',
+                'Gün ${record.shiftNumber} özeti',
                 style: const TextStyle(fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 12),

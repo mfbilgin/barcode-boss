@@ -91,15 +91,20 @@ class InventoryService {
     _savePending([...pendingOrders(), order]);
   }
 
-  /// Vardiya [currentShiftNumber] başlamadan önce çağrılır: önceki
-  /// vardiyalardan kalan siparişler depoya iner ve listeden silinir.
-  /// Teslim edilen siparişleri döndürür (rapor/log için).
+  /// Gün [currentShiftNumber] başlamadan önce çağrılır: bu gün hazırlığında
+  /// (veya daha önceki günlerde) verilen siparişler depoya iner.
+  ///
+  /// **Davranış değişikliği (playtest feedback):** Önceki sürümde sadece
+  /// önceki günlerden kalan siparişler teslim ediliyordu (`<`); şimdi aynı
+  /// gün hazırlığında verilen sipariş de gün başında teslim edilir (`<=`).
+  /// Sebep: "vardiya 2 hazırlığında sipariş ettiğim ürün vardiya 3'te bile
+  /// yolda" → kullanıcı için anlaşılmaz, stok=0'a düşme riski yaratıyordu.
   List<PendingOrder> processDeliveries(int currentShiftNumber) {
     final pending = pendingOrders();
     final delivered = <PendingOrder>[];
     final remaining = <PendingOrder>[];
     for (final o in pending) {
-      if (o.placedShiftNumber < currentShiftNumber) {
+      if (o.placedShiftNumber <= currentShiftNumber) {
         delivered.add(o);
         final item = get(o.productId);
         if (item != null) {

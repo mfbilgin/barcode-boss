@@ -22,11 +22,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String levelAndShift(int level, int shift) {
-    return '$level · Vardiya $shift';
+    return '$level · Gün $shift';
   }
 
   @override
-  String get buttonStartShift => 'Vardiyaya Başla';
+  String get buttonStartShift => 'Güne Başla';
 
   @override
   String get buttonNewGame => 'Yeni Oyun (sıfırla)';
@@ -36,7 +36,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String prepTitle(int shift) {
-    return 'Vardiya $shift hazırlığı';
+    return 'Gün $shift hazırlığı';
   }
 
   @override
@@ -52,7 +52,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tabReport => 'Önceki Rapor';
 
   @override
-  String get buttonStartShiftUpper => 'VARDİYAYI BAŞLAT';
+  String get buttonStartShiftUpper => 'GÜNE BAŞLA';
 
   @override
   String get settingsTitle => 'Ayarlar';
@@ -133,7 +133,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get buttonBackToPrep => 'Hazırlık Ekranına Dön';
 
   @override
-  String get emptyShiftRecord => 'Henüz tamamlanmış vardiya yok.';
+  String get emptyShiftRecord => 'Henüz tamamlanmış gün yok.';
 
   @override
   String get labelTutorialBonus => 'Yeni başlayan bonusu';
@@ -149,7 +149,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String emergencyAdvanceDialogBody(String amount) {
-    return '$amount bakiyene eklendi. Sonraki 3 vardiyada net kazancının %20\'si kesilecek (vardiya başına max 🪙 200).';
+    return '$amount bakiyene eklendi. Sonraki 3 günde net kazancının %20\'si kesilecek (gün başına max 🪙 200).';
   }
 
   @override
@@ -160,11 +160,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get stockZeroDialogBody =>
-      'Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt.';
+      'Günü başlatamazsın. Önce Sipariş sekmesinden mal getirt.';
 
   @override
   String stockZeroDialogBodyWithAdvance(String amount) {
-    return 'Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik $amount avans verildi.';
+    return 'Günü başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik $amount avans verildi.';
   }
 
   @override
