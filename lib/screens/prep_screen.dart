@@ -44,6 +44,16 @@ class _PrepScreenState extends ConsumerState<PrepScreen>
       if (!mounted) return;
       final level = ref.read(economyProvider).storeLevel;
       ref.read(inventoryProvider.notifier).ensureSeeded(catalog, level);
+
+      // §6.4 — RaporTab için son vardiyayı Hive'dan restore et.
+      // (Provider state ShiftSummaryScreen unmount'unda kaybolabiliyor;
+      // Hive tek doğru kaynak.)
+      if (ref.read(lastShiftProvider) == null) {
+        final last = ref.read(saveServiceProvider).lastShiftRecord;
+        if (last != null) {
+          ref.read(lastShiftProvider.notifier).state = last;
+        }
+      }
     });
   }
 

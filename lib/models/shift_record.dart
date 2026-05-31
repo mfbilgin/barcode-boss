@@ -79,4 +79,32 @@ class ShiftRecord {
           emergencyAdvanceKurus ?? this.emergencyAdvanceKurus,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'shiftNumber': shiftNumber,
+    'customersServed': customersServed,
+    'customersLost': customersLost,
+    'missedDemand': missedDemand,
+    'wrongChange': wrongChange,
+    'revenueKurus': revenueKurus,
+    'costKurus': costKurus,
+    'xpEarned': xpEarned,
+    'tutorialBonusKurus': tutorialBonusKurus,
+    'repaymentKurus': repaymentKurus,
+    'emergencyAdvanceKurus': emergencyAdvanceKurus,
+  };
+
+  factory ShiftRecord.fromJson(Map json) => ShiftRecord(
+    shiftNumber: json['shiftNumber'] as int,
+    customersServed: json['customersServed'] as int,
+    customersLost: json['customersLost'] as int,
+    missedDemand: json['missedDemand'] as int,
+    wrongChange: json['wrongChange'] as int,
+    revenueKurus: json['revenueKurus'] as int,
+    costKurus: json['costKurus'] as int,
+    xpEarned: json['xpEarned'] as int,
+    tutorialBonusKurus: (json['tutorialBonusKurus'] as int?) ?? 0,
+    repaymentKurus: (json['repaymentKurus'] as int?) ?? 0,
+    emergencyAdvanceKurus: (json['emergencyAdvanceKurus'] as int?) ?? 0,
+  );
 }

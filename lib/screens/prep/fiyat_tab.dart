@@ -119,11 +119,23 @@ class _FiyatRowState extends State<_FiyatRow> {
     }
   }
 
+  /// Slider step boyutu (kuruş). 25 kuruş = 0.25 BC; slider'ı snap'ler ve
+  /// ± butonları bu kadar artırır/azaltır — tek kuruş hassasiyet aramaktansa
+  /// hızlı/net ayar.
+  static const int _stepKurus = 25;
+
+  void _bump(int deltaKurus, double min, double max) {
+    final next = (_value + deltaKurus).clamp(min, max);
+    setState(() => _value = next);
+    widget.onCommit(next.round());
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultPrice = widget.product.defaultSellPriceKurus;
     final min = defaultPrice * 0.5;
     final max = defaultPrice * 3.0;
+    final divisions = ((max - min) / _stepKurus).round().clamp(1, 1000);
     final priceKurus = _value.round();
     final chance = Elasticity.purchaseChance(
       currentSellPriceKurus: priceKurus,
@@ -158,13 +170,42 @@ class _FiyatRowState extends State<_FiyatRow> {
               ),
             ],
           ),
-          Slider(
-            min: min,
-            max: max,
-            value: _value.clamp(min, max),
-            activeColor: AppColors.primary,
-            onChanged: (v) => setState(() => _value = v),
-            onChangeEnd: (v) => widget.onCommit(v.round()),
+          // ± butonlar + slider. Sıkça yapılan küçük ayarlar için butonlar,
+          // büyük atlamalar için slider — slider tek başına telefon ekranında
+          // hassas tutulamıyor.
+          Row(
+            children: [
+              _StepButton(
+                icon: Icons.remove,
+                onTap: _value > min ? () => _bump(-_stepKurus, min, max) : null,
+              ),
+              Expanded(
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 6,
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 12,
+                    ),
+                    overlayShape: const RoundSliderOverlayShape(
+                      overlayRadius: 24,
+                    ),
+                  ),
+                  child: Slider(
+                    min: min,
+                    max: max,
+                    divisions: divisions,
+                    value: _value.clamp(min, max),
+                    activeColor: AppColors.primary,
+                    onChanged: (v) => setState(() => _value = v),
+                    onChangeEnd: (v) => widget.onCommit(v.round()),
+                  ),
+                ),
+              ),
+              _StepButton(
+                icon: Icons.add,
+                onTap: _value < max ? () => _bump(_stepKurus, min, max) : null,
+              ),
+            ],
           ),
           Row(
             children: [
@@ -202,5 +243,41 @@ class _FiyatRowState extends State<_FiyatRow> {
       default:
         return 'normal';
     }
+  }
+}
+
+/// Slider'ın yanına eklenen ± dokunmatik buton. Devre dışı ise yarı saydam.
+class _StepButton extends StatelessWidget {
+  const _StepButton({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onTap != null;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: 40,
+          height: 40,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: enabled
+                ? AppColors.primary.withValues(alpha: 0.12)
+                : AppColors.inkSoft.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(
+            icon,
+            size: 22,
+            color: enabled ? AppColors.primary : AppColors.inkSoft,
+          ),
+        ),
+      ),
+    );
   }
 }

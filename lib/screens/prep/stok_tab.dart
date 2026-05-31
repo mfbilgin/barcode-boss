@@ -16,6 +16,7 @@ class StokTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final inventory = ref.watch(inventoryProvider);
+    final pending = ref.read(inventoryProvider.notifier).pendingByProduct();
     final byCategory = _groupByCategory(catalog);
 
     return ListView(
@@ -26,7 +27,11 @@ class StokTab extends ConsumerWidget {
             title: catalog.categories[entry.key]?.heading ?? entry.key,
           ),
           for (final p in entry.value)
-            _StokRow(product: p, item: inventory[p.id]),
+            _StokRow(
+              product: p,
+              item: inventory[p.id],
+              pendingQty: pending[p.id] ?? 0,
+            ),
         ],
       ],
     );
@@ -63,10 +68,17 @@ class _CategoryHeader extends StatelessWidget {
 }
 
 class _StokRow extends StatelessWidget {
-  const _StokRow({required this.product, required this.item});
+  const _StokRow({
+    required this.product,
+    required this.item,
+    required this.pendingQty,
+  });
 
   final Product product;
   final InventoryItem? item;
+
+  /// Bekleyen sipariş miktarı (sonraki vardiya başında depoya iner).
+  final int pendingQty;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +112,8 @@ class _StokRow extends StatelessWidget {
                 Text(
                   locked
                       ? 'Lvl ${product.unlockLevel}\'de açılır'
-                      : 'Raf: $shelf · Depo: $warehouse',
+                      : 'Raf: $shelf · Depo: $warehouse'
+                          '${pendingQty > 0 ? ' · Yolda: $pendingQty' : ''}',
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.inkSoft,

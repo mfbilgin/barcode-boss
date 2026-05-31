@@ -62,6 +62,15 @@ class InventoryNotifier extends StateNotifier<Map<String, InventoryItem>> {
   List<({String productId, int quantity})> autoReorderSuggestions() =>
       _service.autoReorderSuggestions();
 
+  /// Ürün başına toplam bekleyen sipariş miktarı (Stok ekranı "Yolda: N").
+  Map<String, int> pendingByProduct() {
+    final out = <String, int>{};
+    for (final o in _service.pendingOrders()) {
+      out[o.productId] = (out[o.productId] ?? 0) + o.quantity;
+    }
+    return out;
+  }
+
   Future<void> reset() async {
     await _service.reset();
     state = {};

@@ -42,18 +42,30 @@ abstract class ChangeOptionsGenerator {
   }
 
   /// [changeKurus] hedef para üstü için 1 doğru + 2 yakın yanlış seçenek
-  /// üretir. [random] tohum kontrolü için (test).
+  /// üretir. Yanlış seçeneklerin sapması rastgele aralıkta seçilir
+  /// (tester'ın "hep aynı miktar" şikâyetini önler). [random] tohum kontrolü
+  /// için (test).
   static ChangeOptions generate(int changeKurus, {Random? random}) {
     final rng = random ?? Random();
     final correct = ChangeOption(greedy(changeKurus));
 
-    // Hata büyüklüğü change boyutuna göre — küçük amount, küçük hata.
-    final delta1 = changeKurus >= 1000 ? 100 : 50; // 1 BC veya 0,50
-    final delta2 = changeKurus >= 1000 ? 250 : 100; // 2,5 BC veya 1 BC
+    // Yanlış 1: doğrudan FAZLA. Aralık change boyutuna göre.
+    // changeKurus < 500 (≤5 BC): +25..+150 kuruş (0.25..1.50 BC)
+    // changeKurus < 2000: +50..+250
+    // diğer: +100..+500
+    final overMin = changeKurus < 500 ? 25 : (changeKurus < 2000 ? 50 : 100);
+    final overMax = changeKurus < 500 ? 150 : (changeKurus < 2000 ? 250 : 500);
+    final over = overMin + rng.nextInt(overMax - overMin + 1);
 
-    final wrong1 = ChangeOption(greedy(changeKurus + delta1));
+    // Yanlış 2: doğrudan EKSİK. Aralık benzer ama overlap olmasın diye
+    // 'eksik' tarafından farklı seed.
+    final underMin = changeKurus < 500 ? 25 : (changeKurus < 2000 ? 50 : 100);
+    final underMax = changeKurus < 500 ? 150 : (changeKurus < 2000 ? 250 : 500);
+    final under = underMin + rng.nextInt(underMax - underMin + 1);
+
+    final wrong1 = ChangeOption(greedy(changeKurus + over));
     final wrong2 = ChangeOption(
-      greedy((changeKurus - delta2).clamp(5, 1 << 30)),
+      greedy((changeKurus - under).clamp(5, 1 << 30)),
     );
 
     final ordered = [correct, wrong1, wrong2];

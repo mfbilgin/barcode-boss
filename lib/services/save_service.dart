@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 
+import '../models/shift_record.dart';
 import 'balance.dart';
 
 /// Hive tabanlı kalıcı kayıt sarmalayıcısı (GDD §9.4).
@@ -20,6 +21,11 @@ class SaveService {
   static const String _kEmergencyAdvanceCount = 'emergency_advance_count';
   static const String _kAdvanceRepayRemaining = 'advance_repay_remaining';
   static const String _kStockZeroAdvanceCount = 'stock_zero_advance_count';
+
+  // §6.4 son tamamlanan vardiya raporu — RaporTab burayı okur.
+  // Riverpod StateProvider yerine kalıcı kayıt (uygulama yeniden başlasa
+  // bile rapor sekmesi son vardiyayı gösterir).
+  static const String _kLastShiftRecord = 'last_shift_record';
 
   final Box<dynamic> _economy;
 
@@ -55,6 +61,21 @@ class SaveService {
       _economy.get(_kStockZeroAdvanceCount, defaultValue: 0) as int;
   set stockZeroAdvanceCount(int value) =>
       _economy.put(_kStockZeroAdvanceCount, value);
+
+  /// Son tamamlanan vardiya raporu. `null` = henüz vardiya yok (yeni oyun).
+  ShiftRecord? get lastShiftRecord {
+    final raw = _economy.get(_kLastShiftRecord);
+    if (raw is! Map) return null;
+    return ShiftRecord.fromJson(raw);
+  }
+
+  set lastShiftRecord(ShiftRecord? value) {
+    if (value == null) {
+      _economy.delete(_kLastShiftRecord);
+    } else {
+      _economy.put(_kLastShiftRecord, value.toJson());
+    }
+  }
 
   int get storeLevel => Balance.levelForXp(totalXp);
 

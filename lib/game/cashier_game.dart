@@ -387,13 +387,26 @@ class CashierGame extends FlameGame {
     overlays.add(paymentOverlay);
   }
 
-  /// Müşterinin uzattığı kupür: toplamdan büyük en küçük TL-modeli denomination.
+  /// Müşterinin uzattığı kupür: total'den büyük TL-modeli denomination.
+  /// Çeşitlilik için %60 olasılıkla "en yakın üst", %30 "bir üst", %10
+  /// "iki üst" kupür uzatılır — tester'ın aynı para üstü tekrarını azaltır.
   int _pickGivenAmount(int totalKurus) {
     const denoms = [200, 500, 1000, 2000, 5000, 10000, 20000];
+    final candidates = <int>[];
     for (final d in denoms) {
-      if (d >= totalKurus + 50) return d;
+      if (d >= totalKurus + 50) candidates.add(d);
     }
-    return denoms.last;
+    if (candidates.isEmpty) return denoms.last;
+    final r = _rng.nextDouble();
+    final int idx;
+    if (r < 0.6 || candidates.length == 1) {
+      idx = 0;
+    } else if (r < 0.9 || candidates.length == 2) {
+      idx = 1;
+    } else {
+      idx = 2;
+    }
+    return candidates[idx.clamp(0, candidates.length - 1)];
   }
 
   /// Nakit tam-para "Tamam" veya kart "Onayla" düğmesi.

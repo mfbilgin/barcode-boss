@@ -41,10 +41,21 @@ class ShiftHud extends StatelessWidget {
         children: [
           ValueListenableBuilder<int>(
             valueListenable: game.signals.timeLeft,
-            builder: (_, s, __) => _pill(
-              '⏱ ${_mmss(s)}',
-              color: s <= 30 ? AppColors.patienceLow : AppColors.ink,
-            ),
+            builder: (_, s, __) {
+              // Süre bitti ama aktif müşteri varsa motor 'gap'e geçene kadar
+              // bekler (yarıda kesilmesin diye). Kullanıcıya bu durumu net
+              // göster.
+              if (s <= 0) {
+                return _pill(
+                  '⏱ Kapanıyor — son müşteri',
+                  color: AppColors.patienceLow,
+                );
+              }
+              return _pill(
+                '⏱ ${_mmss(s)}',
+                color: s <= 30 ? AppColors.patienceLow : AppColors.ink,
+              );
+            },
           ),
           ValueListenableBuilder<int>(
             valueListenable: game.signals.shiftNet,

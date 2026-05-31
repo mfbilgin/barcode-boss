@@ -116,11 +116,17 @@ class EconomyNotifier extends StateNotifier<EconomyState> {
       );
     }
 
-    return raw.copyWith(
+    final enriched = raw.copyWith(
       tutorialBonusKurus: lifeline.tutorialBonusKurus,
       repaymentKurus: lifeline.repaymentKurus,
       emergencyAdvanceKurus: lifeline.emergencyAdvanceKurus,
     );
+
+    // §6.4 — son rapor Hive'a yazılır ki RaporTab provider lifecycle'tan
+    // bağımsız okuyabilsin (uygulama restart sonrası bile gösterilir).
+    _save.lastShiftRecord = enriched;
+
+    return enriched;
   }
 
   Future<void> newGame() async {

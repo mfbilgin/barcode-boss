@@ -4,21 +4,26 @@ import 'package:flutter/foundation.dart';
 /// Oyun boyu kullanılan SFX türleri (GDD §8.3).
 enum SfxId {
   /// Barkod beep — başarılı tarama.
-  beep('sfx/beep.wav', cooldownMs: 70, gain: 0.9),
+  beep('sfx/beep.wav', cooldownMs: 70, gain: 0.9, poolSize: 4),
 
   /// Yanlış tarama buzz.
-  buzz('sfx/buzz.wav', cooldownMs: 80, gain: 0.85),
+  buzz('sfx/buzz.wav', cooldownMs: 80, gain: 0.85, poolSize: 2),
 
   /// Madeni para — nakit ödeme.
-  coin('sfx/coin.wav', cooldownMs: 120, gain: 0.9),
+  coin('sfx/coin.wav', cooldownMs: 120, gain: 0.9, poolSize: 2),
 
   /// Kart onay — kart ödeme.
-  card('sfx/card.wav', cooldownMs: 120, gain: 0.9),
+  card('sfx/card.wav', cooldownMs: 120, gain: 0.9, poolSize: 2),
 
   /// Kasa çekmecesi — vardiya sonu / büyük olaylar.
-  drawer('sfx/drawer.wav', cooldownMs: 200, gain: 0.8);
+  drawer('sfx/drawer.wav', cooldownMs: 200, gain: 0.8, poolSize: 1);
 
-  const SfxId(this.asset, {required this.cooldownMs, required this.gain});
+  const SfxId(
+    this.asset, {
+    required this.cooldownMs,
+    required this.gain,
+    required this.poolSize,
+  });
 
   /// `assets/audio/` altına göreli yol.
   final String asset;
@@ -26,12 +31,21 @@ enum SfxId {
 
   /// Sesin "yapısal" volume katsayısı (waveform ham seviyesi).
   final double gain;
+
+  /// AudioPool'da tutulan eşzamanlı çalabilecek player sayısı. `beep`
+  /// gibi hızlı tekrarlı SFX'ler için yüksek; drawer için 1 yeter.
+  final int poolSize;
 }
 
 /// Ses tasarımı sarmalayıcısı (GDD §8.6 mix mimarisi).
 ///
 /// Volume = `master × channel × sfx.gain`. Master = global on/off ve toplu
 /// kontrol; channel = music veya sfx; gain = SFX'in yapısal seviyesi.
+///
+/// **AudioPool:** `FlameAudio.play()` her çağrıda yeni bir AudioPlayer
+/// instance açar → ilk çalma "soğuk" başlar, fark edilebilir gecikme.
+/// Pool ön-instantiated player'ları döndürür → start() neredeyse anlık.
+/// Tester feedback'i: "seslerde gecikme var" — pool ile çözüldü.
 ///
 /// **Cooldown:** Aynı SFX (özellikle combo sırasında beep) çok hızlı
 /// tetiklenirse `cooldownMs` engelliyor (ses çakışmasını önler, GDD §8.6).
@@ -56,17 +70,38 @@ class AudioService {
   bool enabled = true;
 
   final Map<SfxId, int> _lastPlayMs = {};
+  final Map<SfxId, AudioPool> _pools = {};
 
-  /// Tüm SFX'leri audio cache'e ön-yükle (uygulama başlangıcında bir kez).
+  /// Tüm SFX'leri AudioPool olarak ön-yükle (uygulama başlangıcında bir kez).
+  /// Pool oluşturulamasa bile `FlameAudio.play` fallback'i devrede kalır.
   Future<void> preloadAll() async {
     if (!enabled) return;
     try {
+      // Cache'e yükle (loadAll fallback play için de gerekli).
       await FlameAudio.audioCache.loadAll([
         for (final id in SfxId.values) id.asset,
       ]);
     } catch (e, st) {
       // Asset eksikliği oyunu çökertmesin (GDD §16.4 fallback ilkesi).
-      debugPrint('AudioService.preloadAll failed: $e\n$st');
+      debugPrint('AudioService.preloadAll cache failed: $e\n$st');
+      return;
+    }
+
+    // Her SFX için pool kur (paralel).
+    await Future.wait([
+      for (final id in SfxId.values) _initPool(id),
+    ]);
+  }
+
+  Future<void> _initPool(SfxId id) async {
+    try {
+      _pools[id] = await FlameAudio.createPool(
+        id.asset,
+        maxPlayers: id.poolSize,
+      );
+    } catch (e) {
+      // Pool kurulamadıysa fallback FlameAudio.play kullanılır — log + devam.
+      debugPrint('AudioService.createPool(${id.name}) failed: $e');
     }
   }
 
@@ -76,7 +111,8 @@ class AudioService {
     if (sfx != null) sfxVolume = sfx.clamp(0, 1);
   }
 
-  /// SFX çal. Cooldown içinde tekrar tetiklenirse no-op.
+  /// SFX çal. Cooldown içinde tekrar tetiklenirse no-op. Pool varsa
+  /// pool'dan çalar (anlık), yoksa FlameAudio.play fallback (cold-start).
   Future<void> playSfx(SfxId id, {int? nowMs}) async {
     if (!enabled || muted || masterVolume <= 0 || sfxVolume <= 0) return;
     final now = nowMs ?? DateTime.now().millisecondsSinceEpoch;
@@ -85,7 +121,12 @@ class AudioService {
     _lastPlayMs[id] = now;
     final volume = (masterVolume * sfxVolume * id.gain).clamp(0, 1).toDouble();
     try {
-      await FlameAudio.play(id.asset, volume: volume);
+      final pool = _pools[id];
+      if (pool != null) {
+        await pool.start(volume: volume);
+      } else {
+        await FlameAudio.play(id.asset, volume: volume);
+      }
     } catch (e) {
       debugPrint('AudioService.playSfx(${id.name}) failed: $e');
     }
