@@ -64,12 +64,20 @@ class _PrepScreenState extends ConsumerState<PrepScreen>
   }
 
   Future<void> _startShift() async {
-    // §14.4 — stok=0 ise vardiya başlamaz; Sipariş sekmesine yönlendir,
+    // §14.4 — stok=0 ise gün başlamaz; Sipariş sekmesine yönlendir,
     // bakiye yetersizse 200 BC tek-seferlik avans.
+    //
+    // ÖNEMLİ: "stok=0" derken raf+depo VE pending sipariş hepsi 0
+    // olmalı. Yolda mal varsa _startShift'in altındaki processShiftStart
+    // o pending'i indirip rafa taşıyacak, dolayısıyla gün stoksuz
+    // başlamayacak. Lifeline'ı erkenden tetiklemek tester'ı yanıltır
+    // ("yolda 50 ekmek var ama 'stokta ürün yok' diyor").
     final inv = ref.read(inventoryProvider);
-    final allZero =
+    final allInventoryZero =
         inv.isNotEmpty && inv.values.every((it) => it.totalQty == 0);
-    if (allZero) {
+    final pendingEmpty =
+        ref.read(inventoryServiceProvider).pendingOrders().isEmpty;
+    if (allInventoryZero && pendingEmpty) {
       final lifeline = ref.read(lifelineServiceProvider);
       final result = lifeline.checkStockZero(inventoryAllZero: true);
       if (result.advanceKurus > 0) {
@@ -81,7 +89,7 @@ class _PrepScreenState extends ConsumerState<PrepScreen>
       return;
     }
 
-    // Sipariş teslimi + depodan rafa taşıma — vardiya başlamadan önce.
+    // Sipariş teslimi + depodan rafa taşıma — gün başlamadan önce.
     final shiftNumber = ref.read(economyProvider).shiftNumber;
     ref.read(inventoryProvider.notifier).processShiftStart(shiftNumber);
     if (!mounted) return;
