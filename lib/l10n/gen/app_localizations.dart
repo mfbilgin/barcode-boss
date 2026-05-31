@@ -118,6 +118,42 @@ abstract class AppLocalizations {
   /// **'Seviye'**
   String get labelLevel;
 
+  /// No description provided for @labelXpProgress.
+  ///
+  /// In tr, this message translates to:
+  /// **'XP'**
+  String get labelXpProgress;
+
+  /// No description provided for @xpProgressValue.
+  ///
+  /// In tr, this message translates to:
+  /// **'{current}/{next}'**
+  String xpProgressValue(int current, int next);
+
+  /// No description provided for @xpRemaining.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki seviyeye {remaining} XP'**
+  String xpRemaining(int remaining);
+
+  /// No description provided for @xpMaxLevel.
+  ///
+  /// In tr, this message translates to:
+  /// **'En yüksek seviyedesin'**
+  String get xpMaxLevel;
+
+  /// No description provided for @xpLastDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçen gün: +{xp} XP'**
+  String xpLastDay(int xp);
+
+  /// No description provided for @xpNoLastDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçen gün: — (henüz oynanmadı)'**
+  String get xpNoLastDay;
+
   /// No description provided for @levelAndShift.
   ///
   /// In tr, this message translates to:
@@ -141,6 +177,60 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Ayarlar'**
   String get tooltipSettings;
+
+  /// No description provided for @newGameDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni oyuna başla?'**
+  String get newGameDialogTitle;
+
+  /// No description provided for @newGameDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm ilerlemen silinecek: bakiye, gün sayısı, XP, seviye, stoklar, fiyat ayarları ve son rapor. Ses ve erişilebilirlik ayarların korunur. Bu işlem geri alınamaz.'**
+  String get newGameDialogBody;
+
+  /// No description provided for @newGameDialogConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet, sıfırla'**
+  String get newGameDialogConfirm;
+
+  /// No description provided for @newGameDialogCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İptal'**
+  String get newGameDialogCancel;
+
+  /// No description provided for @snackNewGameDone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni oyun başladı.'**
+  String get snackNewGameDone;
+
+  /// No description provided for @labelRecommendedPrice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerilen Fiyat'**
+  String get labelRecommendedPrice;
+
+  /// No description provided for @buttonUseRecommendedPrice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerilen Fiyatı Kullan'**
+  String get buttonUseRecommendedPrice;
+
+  /// No description provided for @labelElasticity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Esneklik'**
+  String get labelElasticity;
+
+  /// No description provided for @labelSaleProbability.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satış olasılığı'**
+  String get labelSaleProbability;
 
   /// No description provided for @prepTitle.
   ///

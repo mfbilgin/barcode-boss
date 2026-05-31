@@ -21,6 +21,30 @@ class AppLocalizationsTr extends AppLocalizations {
   String get labelLevel => 'Seviye';
 
   @override
+  String get labelXpProgress => 'XP';
+
+  @override
+  String xpProgressValue(int current, int next) {
+    return '$current/$next';
+  }
+
+  @override
+  String xpRemaining(int remaining) {
+    return 'Sonraki seviyeye $remaining XP';
+  }
+
+  @override
+  String get xpMaxLevel => 'En yüksek seviyedesin';
+
+  @override
+  String xpLastDay(int xp) {
+    return 'Geçen gün: +$xp XP';
+  }
+
+  @override
+  String get xpNoLastDay => 'Geçen gün: — (henüz oynanmadı)';
+
+  @override
   String levelAndShift(int level, int shift) {
     return '$level · Gün $shift';
   }
@@ -33,6 +57,34 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tooltipSettings => 'Ayarlar';
+
+  @override
+  String get newGameDialogTitle => 'Yeni oyuna başla?';
+
+  @override
+  String get newGameDialogBody =>
+      'Tüm ilerlemen silinecek: bakiye, gün sayısı, XP, seviye, stoklar, fiyat ayarları ve son rapor. Ses ve erişilebilirlik ayarların korunur. Bu işlem geri alınamaz.';
+
+  @override
+  String get newGameDialogConfirm => 'Evet, sıfırla';
+
+  @override
+  String get newGameDialogCancel => 'İptal';
+
+  @override
+  String get snackNewGameDone => 'Yeni oyun başladı.';
+
+  @override
+  String get labelRecommendedPrice => 'Önerilen Fiyat';
+
+  @override
+  String get buttonUseRecommendedPrice => 'Önerilen Fiyatı Kullan';
+
+  @override
+  String get labelElasticity => 'Esneklik';
+
+  @override
+  String get labelSaleProbability => 'Satış olasılığı';
 
   @override
   String prepTitle(int shift) {

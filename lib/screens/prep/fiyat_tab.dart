@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/gen/app_localizations.dart';
 import '../../models/catalog.dart';
 import '../../models/inventory_item.dart';
 import '../../models/product.dart';
@@ -119,10 +120,12 @@ class _FiyatRowState extends State<_FiyatRow> {
     }
   }
 
-  /// Slider step boyutu (kuruş). 25 kuruş = 0.25 BC; slider'ı snap'ler ve
-  /// ± butonları bu kadar artırır/azaltır — tek kuruş hassasiyet aramaktansa
-  /// hızlı/net ayar.
-  static const int _stepKurus = 25;
+  /// Slider'ı sabit 20 segmente böl — her ürünün fiyat aralığı farklı
+  /// (büyük/küçük) olsa da slider tick'leri tutarlı görünür.
+  /// Tester feedback: "Ekmek bar'ı noktalı iken süt değil" — sabit step
+  /// kullanırken aralık geniş olunca tick'ler birbirine yapışıp görünmez
+  /// hale geliyordu.
+  static const int _sliderDivisions = 20;
 
   void _bump(int deltaKurus, double min, double max) {
     final next = (_value + deltaKurus).clamp(min, max);
@@ -130,13 +133,23 @@ class _FiyatRowState extends State<_FiyatRow> {
     widget.onCommit(next.round());
   }
 
+  void _resetToDefault() {
+    final defaultPrice = widget.product.defaultSellPriceKurus.toDouble();
+    setState(() => _value = defaultPrice);
+    widget.onCommit(defaultPrice.round());
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final defaultPrice = widget.product.defaultSellPriceKurus;
     final min = defaultPrice * 0.5;
     final max = defaultPrice * 3.0;
-    final divisions = ((max - min) / _stepKurus).round().clamp(1, 1000);
+    // Ürüne göre dinamik step — slider divisions sabit (20), step
+    // (max-min)/20'ye otomatik ayarlanır. ± butonları bu step'i kullanır.
+    final stepKurus = ((max - min) / _sliderDivisions).round().clamp(1, 1000);
     final priceKurus = _value.round();
+    final isAtDefault = priceKurus == defaultPrice;
     final chance = Elasticity.purchaseChance(
       currentSellPriceKurus: priceKurus,
       defaultSellPriceKurus: defaultPrice,
@@ -177,7 +190,7 @@ class _FiyatRowState extends State<_FiyatRow> {
             children: [
               _StepButton(
                 icon: Icons.remove,
-                onTap: _value > min ? () => _bump(-_stepKurus, min, max) : null,
+                onTap: _value > min ? () => _bump(-stepKurus, min, max) : null,
               ),
               Expanded(
                 child: SliderTheme(
@@ -193,7 +206,7 @@ class _FiyatRowState extends State<_FiyatRow> {
                   child: Slider(
                     min: min,
                     max: max,
-                    divisions: divisions,
+                    divisions: _sliderDivisions,
                     value: _value.clamp(min, max),
                     activeColor: AppColors.primary,
                     onChanged: (v) => setState(() => _value = v),
@@ -203,20 +216,26 @@ class _FiyatRowState extends State<_FiyatRow> {
               ),
               _StepButton(
                 icon: Icons.add,
-                onTap: _value < max ? () => _bump(_stepKurus, min, max) : null,
+                onTap: _value < max ? () => _bump(stepKurus, min, max) : null,
               ),
             ],
           ),
           Row(
             children: [
-              Text(
-                'Default: ${BCoinFormatter.withSymbol(defaultPrice)}'
-                ' · Esneklik: ${_elasticityLabel(widget.product.elasticity)}',
-                style: const TextStyle(fontSize: 11, color: AppColors.inkSoft),
+              Expanded(
+                child: Text(
+                  '${l.labelRecommendedPrice}: '
+                  '${BCoinFormatter.withSymbol(defaultPrice)}'
+                  ' · ${l.labelElasticity}: '
+                  '${_elasticityLabel(widget.product.elasticity)}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.inkSoft,
+                  ),
+                ),
               ),
-              const Spacer(),
               Text(
-                'Satış olasılığı: %${(chance * 100).round()}',
+                '${l.labelSaleProbability}: %${(chance * 100).round()}',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
@@ -228,6 +247,23 @@ class _FiyatRowState extends State<_FiyatRow> {
                 ),
               ),
             ],
+          ),
+          // §3.5 — oyuncu fiyat ayarladıktan sonra varsayılana hızlı geri
+          // dönüş. Tester feedback: "her ürün için Önerilen Fiyatı Kullan
+          // butonu olmalı". Zaten önerilen fiyattaysa devre dışı.
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: isAtDefault ? null : _resetToDefault,
+              icon: const Icon(Icons.refresh, size: 16),
+              label: Text(l.buttonUseRecommendedPrice),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
           ),
         ],
       ),

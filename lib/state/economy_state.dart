@@ -29,6 +29,25 @@ class EconomyState {
     return Balance.levelXpThresholds[storeLevel] - totalXp;
   }
 
+  /// Şu anki seviyenin başlangıç XP eşiği (örn. Lvl 2 → 100).
+  int get currentLevelXpFloor =>
+      Balance.levelXpThresholds[(storeLevel - 1).clamp(0, Balance.maxLevel - 1)];
+
+  /// Sonraki seviyenin XP eşiği. Max seviyede şu anki XP'yi döner
+  /// (UI tarafında "max" olarak gösterilir).
+  int get nextLevelXpThreshold {
+    if (storeLevel >= Balance.maxLevel) return totalXp;
+    return Balance.levelXpThresholds[storeLevel];
+  }
+
+  /// 0..1 arası mevcut seviyedeki ilerleme oranı (progress bar için).
+  double get levelProgress {
+    if (storeLevel >= Balance.maxLevel) return 1.0;
+    final span = nextLevelXpThreshold - currentLevelXpFloor;
+    if (span <= 0) return 1.0;
+    return ((totalXp - currentLevelXpFloor) / span).clamp(0.0, 1.0);
+  }
+
   EconomyState copyWith({int? coinsKurus, int? totalXp, int? shiftNumber}) {
     return EconomyState(
       coinsKurus: coinsKurus ?? this.coinsKurus,

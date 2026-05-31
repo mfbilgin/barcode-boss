@@ -5,6 +5,24 @@
 
   "labelBalance": "Bakiye",
   "labelLevel": "Seviye",
+  "labelXpProgress": "XP",
+  "xpProgressValue": "{current}/{next}",
+  "@xpProgressValue": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "next": {"type": "int"}
+    }
+  },
+  "xpRemaining": "Sonraki seviyeye {remaining} XP",
+  "@xpRemaining": {
+    "placeholders": {"remaining": {"type": "int"}}
+  },
+  "xpMaxLevel": "En yüksek seviyedesin",
+  "xpLastDay": "Geçen gün: +{xp} XP",
+  "@xpLastDay": {
+    "placeholders": {"xp": {"type": "int"}}
+  },
+  "xpNoLastDay": "Geçen gün: — (henüz oynanmadı)",
   "levelAndShift": "{level} · Gün {shift}",
   "@levelAndShift": {
     "placeholders": {
@@ -15,6 +33,16 @@
   "buttonStartShift": "Güne Başla",
   "buttonNewGame": "Yeni Oyun (sıfırla)",
   "tooltipSettings": "Ayarlar",
+
+  "newGameDialogTitle": "Yeni oyuna başla?",
+  "newGameDialogBody": "Tüm ilerlemen silinecek: bakiye, gün sayısı, XP, seviye, stoklar, fiyat ayarları ve son rapor. Ses ve erişilebilirlik ayarların korunur. Bu işlem geri alınamaz.",
+  "newGameDialogConfirm": "Evet, sıfırla",
+  "newGameDialogCancel": "İptal",
+  "snackNewGameDone": "Yeni oyun başladı.",
+  "labelRecommendedPrice": "Önerilen Fiyat",
+  "buttonUseRecommendedPrice": "Önerilen Fiyatı Kullan",
+  "labelElasticity": "Esneklik",
+  "labelSaleProbability": "Satış olasılığı",
 
   "prepTitle": "Gün {shift} hazırlığı",
   "@prepTitle": {

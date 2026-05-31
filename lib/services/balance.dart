@@ -18,11 +18,11 @@ abstract class Balance {
     return level;
   }
 
-  /// Vardiya süresi (saniye). Playtest iterasyonu (Faz 5): tüm seviyelerde
-  /// 2.5 dk = 150 sn — kısa loop, hızlı feedback.
+  /// Gün süresi (saniye). Playtest iterasyonu (Faz 5): tüm seviyelerde
+  /// 1 dk 45 sn = 105 sn — kısa loop, hızlı feedback.
   /// GDD §23.1 referans: lvl 1-2 = 5dk, 3-4 = 6dk, 5 = 7dk; playtest tuning
   /// sonrası geri ölçeklenecek.
-  static int shiftDurationSec(int level) => 150;
+  static int shiftDurationSec(int level) => 105;
 
   /// Maksimum sepet boyutu: `2 + min(level*2, 10)` (GDD §13.2, §23.1).
   static int maxBasket(int level) => 2 + (level * 2).clamp(0, 10);

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../app.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../services/audio_service.dart';
+import '../state/economy_state.dart';
+import '../state/inventory_state.dart';
 import '../state/settings_state.dart';
 import '../state/tutorial_state.dart';
 import '../theme/app_theme.dart';
@@ -92,9 +94,61 @@ class SettingsScreen extends ConsumerWidget {
             icon: const Icon(Icons.replay),
             label: Text(l.buttonResetTutorial),
           ),
+          const SizedBox(height: 8),
+          // Tehlikeli/yıkıcı işlem — kırmızı vurgu + onay popup ile korunur.
+          OutlinedButton.icon(
+            onPressed: () => _confirmNewGame(context, ref),
+            icon: const Icon(Icons.restart_alt, color: AppColors.patienceLow),
+            label: Text(
+              l.buttonNewGame,
+              style: const TextStyle(color: AppColors.patienceLow),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(
+                color: AppColors.patienceLow.withValues(alpha: 0.5),
+              ),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _confirmNewGame(BuildContext context, WidgetRef ref) async {
+    final l = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l.newGameDialogTitle),
+        content: Text(l.newGameDialogBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(l.newGameDialogCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.patienceLow,
+            ),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(l.newGameDialogConfirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !context.mounted) return;
+
+    await ref.read(economyProvider.notifier).newGame();
+    await ref.read(inventoryProvider.notifier).reset();
+    await ref.read(tutorialProvider.notifier).reset();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l.snackNewGameDone),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+    context.go(Routes.home);
   }
 }
 

@@ -16,10 +16,10 @@ void main() {
   });
 
   group('Balance.shiftDurationSec (Faz 5 playtest tuning)', () {
-    test('tüm seviyelerde 150 sn (playtest iterasyonu)', () {
-      expect(Balance.shiftDurationSec(1), 150);
-      expect(Balance.shiftDurationSec(3), 150);
-      expect(Balance.shiftDurationSec(5), 150);
+    test('tüm seviyelerde 105 sn = 1dk 45sn (playtest iterasyonu)', () {
+      expect(Balance.shiftDurationSec(1), 105);
+      expect(Balance.shiftDurationSec(3), 105);
+      expect(Balance.shiftDurationSec(5), 105);
     });
   });
 
