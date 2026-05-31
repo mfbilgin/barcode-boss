@@ -1,0 +1,50 @@
+# GitHub Pages — Barcode Boss
+# Bu dosya yalnızca docs/ klasörü Pages kaynağı seçildiğinde okunur.
+
+title: Barcode Boss
+description: Mobile mahalle market kasiyer simülatörü — Flutter + Flame
+author: Muhammet Bilgin
+
+# Jekyll yerleşik temalardan biri (kayıt gerektirmez):
+# - jekyll-theme-minimal      (sade, gri-mavi)
+# - jekyll-theme-cayman        (turuncu-mavi hero başlık)  ← seçildi
+# - jekyll-theme-architect
+# - jekyll-theme-leap-day
+# - jekyll-theme-merlot
+# - jekyll-theme-midnight
+# - jekyll-theme-modernist
+# - jekyll-theme-slate
+# - jekyll-theme-tactile
+# - jekyll-theme-time-machine
+theme: jekyll-theme-cayman
+
+# GitHub Pages varsayılan plugin'leri
+plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+
+# Sadece public sayfalar render edilsin — internal docs Pages'te
+# görünmesin diye exclude.
+exclude:
+  - GDD.md                # ürün özellikleri public ama Pages menüsünde olmasın
+  - firebase-setup.md     # internal setup rehberi
+  - release-build.md      # internal setup rehberi
+  - kvkk-privacy.md       # privacy.md yayında, bu sadece şablon
+  - playtest-guide.md     # tester brief, internal
+  - README.md             # docs altında internal not (varsa)
+  - analysis_options.yaml
+  - pubspec.yaml
+  - products.json
+  - gitignore
+
+# URL yapısı: docs/privacy.md → /privacy/  (slash'lı temiz URL)
+permalink: /:title/
+
+# Markdown çözümleyici
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
