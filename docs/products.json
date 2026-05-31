@@ -1,0 +1,178 @@
+{
+  "$comment": "Barcode Boss master product catalog. Tüm fiyatlar kuruş cinsinden integer (1 B-Coin = 100 kuruş). Bkz. GDD §3.2, §3.7, §23.2. Tema: 'fresh market'.",
+  "schema_version": 1,
+  "currency": {
+    "code": "BCOIN",
+    "name": "B-Coin",
+    "decimal_places": 2,
+    "subunit_per_unit": 100,
+    "subunit_name_tr": "kuruş"
+  },
+  "categories": {
+    "gida_temel":   { "name_tr": "Gıda Temel",    "emoji": "🍞", "unlock_level": 1 },
+    "icecek":       { "name_tr": "İçecek",        "emoji": "🥤", "unlock_level": 2 },
+    "atistirmalik": { "name_tr": "Atıştırmalık",  "emoji": "🍫", "unlock_level": 3 },
+    "premium":      { "name_tr": "Premium",       "emoji": "⭐", "unlock_level": 4 },
+    "manav":        { "name_tr": "Manav",         "emoji": "🍎", "unlock_level": 5 }
+  },
+  "elasticity_labels": {
+    "0": "inelastik",
+    "1": "normal",
+    "2": "elastik"
+  },
+  "products": [
+    {
+      "id": "bread",
+      "name_i18n": { "tr": "Ekmek" },
+      "category": "gida_temel",
+      "cost_price_kurus": 125,
+      "default_sell_price_kurus": 250,
+      "elasticity": 0,
+      "unlock_level": 1,
+      "icon_asset": "assets/images/products/bread.png",
+      "vertical_slice": true
+    },
+    {
+      "id": "milk_carton",
+      "name_i18n": { "tr": "Süt" },
+      "category": "gida_temel",
+      "cost_price_kurus": 550,
+      "default_sell_price_kurus": 800,
+      "elasticity": 0,
+      "unlock_level": 1,
+      "icon_asset": "assets/images/products/milk_carton.png",
+      "vertical_slice": true
+    },
+    {
+      "id": "mineral_water",
+      "name_i18n": { "tr": "Maden Suyu" },
+      "category": "gida_temel",
+      "cost_price_kurus": 75,
+      "default_sell_price_kurus": 150,
+      "elasticity": 0,
+      "unlock_level": 1,
+      "icon_asset": "assets/images/products/mineral_water.png"
+    },
+    {
+      "id": "cola_can",
+      "name_i18n": { "tr": "Kola" },
+      "category": "icecek",
+      "cost_price_kurus": 350,
+      "default_sell_price_kurus": 700,
+      "elasticity": 1,
+      "unlock_level": 2,
+      "icon_asset": "assets/images/products/cola_can.png"
+    },
+    {
+      "id": "soda_bottle",
+      "name_i18n": { "tr": "Gazoz" },
+      "category": "icecek",
+      "cost_price_kurus": 400,
+      "default_sell_price_kurus": 800,
+      "elasticity": 1,
+      "unlock_level": 2,
+      "icon_asset": "assets/images/products/soda_bottle.png"
+    },
+    {
+      "id": "juice_bottle",
+      "name_i18n": { "tr": "Meyve Suyu" },
+      "category": "icecek",
+      "cost_price_kurus": 600,
+      "default_sell_price_kurus": 1100,
+      "elasticity": 1,
+      "unlock_level": 2,
+      "icon_asset": "assets/images/products/juice_bottle.png"
+    },
+    {
+      "id": "chocolate",
+      "name_i18n": { "tr": "Çikolata" },
+      "category": "atistirmalik",
+      "cost_price_kurus": 400,
+      "default_sell_price_kurus": 800,
+      "elasticity": 1,
+      "unlock_level": 3,
+      "icon_asset": "assets/images/products/chocolate.png",
+      "vertical_slice": true
+    },
+    {
+      "id": "chips_bag",
+      "name_i18n": { "tr": "Cips" },
+      "category": "atistirmalik",
+      "cost_price_kurus": 350,
+      "default_sell_price_kurus": 750,
+      "elasticity": 1,
+      "unlock_level": 3,
+      "icon_asset": "assets/images/products/chips_bag.png"
+    },
+    {
+      "id": "cookie",
+      "name_i18n": { "tr": "Bisküvi" },
+      "category": "atistirmalik",
+      "cost_price_kurus": 250,
+      "default_sell_price_kurus": 500,
+      "elasticity": 1,
+      "unlock_level": 3,
+      "icon_asset": "assets/images/products/cookie.png"
+    },
+    {
+      "id": "candy_bar",
+      "name_i18n": { "tr": "Premium Çikolata" },
+      "category": "premium",
+      "cost_price_kurus": 1200,
+      "default_sell_price_kurus": 2500,
+      "elasticity": 2,
+      "unlock_level": 4,
+      "icon_asset": "assets/images/products/candy_bar.png"
+    },
+    {
+      "id": "croissant",
+      "name_i18n": { "tr": "Kruvasan" },
+      "category": "premium",
+      "cost_price_kurus": 800,
+      "default_sell_price_kurus": 1500,
+      "elasticity": 2,
+      "unlock_level": 4,
+      "icon_asset": "assets/images/products/croissant.png"
+    },
+    {
+      "id": "pudding",
+      "name_i18n": { "tr": "Yoğurt" },
+      "category": "premium",
+      "cost_price_kurus": 450,
+      "default_sell_price_kurus": 900,
+      "elasticity": 1,
+      "unlock_level": 4,
+      "icon_asset": "assets/images/products/pudding.png"
+    },
+    {
+      "id": "apple",
+      "name_i18n": { "tr": "Elma" },
+      "category": "manav",
+      "cost_price_kurus": 250,
+      "default_sell_price_kurus": 500,
+      "elasticity": 1,
+      "unlock_level": 5,
+      "icon_asset": "assets/images/products/apple.png"
+    },
+    {
+      "id": "tomato",
+      "name_i18n": { "tr": "Domates" },
+      "category": "manav",
+      "cost_price_kurus": 200,
+      "default_sell_price_kurus": 400,
+      "elasticity": 1,
+      "unlock_level": 5,
+      "icon_asset": "assets/images/products/tomato.png"
+    },
+    {
+      "id": "banana",
+      "name_i18n": { "tr": "Muz" },
+      "category": "manav",
+      "cost_price_kurus": 350,
+      "default_sell_price_kurus": 700,
+      "elasticity": 1,
+      "unlock_level": 5,
+      "icon_asset": "assets/images/products/banana.png"
+    }
+  ]
+}

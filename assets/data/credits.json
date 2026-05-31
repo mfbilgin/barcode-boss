@@ -1,0 +1,48 @@
+{
+  "$comment": "Asset attribution + lisans takibi (GDD §8.5, §21.4). Credits ekranı bunu okur. CC0 attribution gerektirmez ama etik/şeffaflık için listelenir.",
+  "schema_version": 1,
+  "art": [
+    {
+      "name": "Food Kit",
+      "author": "Kenney.nl",
+      "license": "CC0 1.0",
+      "url": "https://kenney.nl/assets/food-kit",
+      "usage": "Ürün ikonları (15 MVP ürünü) — Blender ile 2D render"
+    },
+    {
+      "name": "Mini Market",
+      "author": "Kenney.nl",
+      "license": "CC0 1.0",
+      "url": "https://kenney.nl/assets/mini-market",
+      "usage": "Sahne dekoru prop'ları (employee, cart, basket, shelf)"
+    },
+    {
+      "name": "Toon Characters 1",
+      "author": "Kenney.nl",
+      "license": "CC0 1.0",
+      "url": "https://kenney.nl/assets/toon-characters-1",
+      "usage": "Müşteri portreleri (normal/aceleci/yaşlı)"
+    },
+    {
+      "name": "Generic Items",
+      "author": "Kenney.nl",
+      "license": "CC0 1.0",
+      "url": "https://kenney.nl/assets/generic-items",
+      "usage": "Market dışı ürünler (post-launch genişleme)"
+    }
+  ],
+  "fonts": [
+    {
+      "name": "Nunito",
+      "author": "Vernon Adams, Cyreal, Jacques Le Bailly",
+      "license": "SIL Open Font License 1.1",
+      "url": "https://fonts.google.com/specimen/Nunito",
+      "usage": "Tüm UI tipografisi"
+    }
+  ],
+  "audio": [
+    {
+      "$comment": "SFX/müzik Faz 3'te eklenecek (GDD §8). Pixabay/Freesound CC0 + Kenney Audio."
+    }
+  ]
+}

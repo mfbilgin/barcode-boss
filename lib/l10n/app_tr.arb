@@ -1,0 +1,76 @@
+{
+  "@@locale": "tr",
+  "appTitle": "Barcode Boss",
+  "appTagline": "Mahalle marketinin patronu sensin",
+
+  "labelBalance": "Bakiye",
+  "labelLevel": "Seviye",
+  "levelAndShift": "{level} · Vardiya {shift}",
+  "@levelAndShift": {
+    "placeholders": {
+      "level": {"type": "int"},
+      "shift": {"type": "int"}
+    }
+  },
+  "buttonStartShift": "Vardiyaya Başla",
+  "buttonNewGame": "Yeni Oyun (sıfırla)",
+  "tooltipSettings": "Ayarlar",
+
+  "prepTitle": "Vardiya {shift} hazırlığı",
+  "@prepTitle": {
+    "placeholders": {"shift": {"type": "int"}}
+  },
+  "tabStock": "Stok",
+  "tabOrders": "Sipariş",
+  "tabPricing": "Fiyat",
+  "tabReport": "Önceki Rapor",
+  "buttonStartShiftUpper": "VARDİYAYI BAŞLAT",
+
+  "settingsTitle": "Ayarlar",
+  "sectionSound": "Ses",
+  "sectionAccessibility": "Erişilebilirlik",
+  "sectionProgress": "İlerleme",
+  "labelMasterVolume": "Ana ses",
+  "labelMusicVolume": "Müzik",
+  "labelSfxVolume": "Efekt (SFX)",
+  "labelMute": "Sessize al",
+  "labelTapMode": "Tap modu (tarama)",
+  "subtitleTapMode": "Swipe yerine tek tap ile tara",
+  "labelHaptic": "Titreşim feedback",
+  "labelReduceAnimations": "Animasyonları azalt",
+  "buttonResetTutorial": "Tutorial'ı tekrar göster",
+  "snackTutorialReset": "Tutorial sıfırlandı.",
+  "tooltipTest": "Test",
+
+  "summaryTitle": "🎉 Kepenk Kapandı!",
+  "labelCustomersServed": "İşlenen müşteri",
+  "labelCustomersLost": "Kaybedilen müşteri",
+  "labelMissedDemand": "Kaçırılan talep",
+  "labelWrongChange": "Yanlış para üstü",
+  "labelSatisfaction": "Memnuniyet",
+  "labelRevenue": "Ciro",
+  "labelCost": "Maliyet",
+  "labelNet": "Net kâr",
+  "labelXp": "XP",
+  "buttonBackToPrep": "Hazırlık Ekranına Dön",
+  "emptyShiftRecord": "Henüz tamamlanmış vardiya yok.",
+
+  "labelTutorialBonus": "Yeni başlayan bonusu",
+  "labelAdvanceRepayment": "Avans geri ödemesi",
+  "labelEmergencyAdvance": "Acil avans",
+
+  "emergencyAdvanceDialogTitle": "Acil avans aldın!",
+  "emergencyAdvanceDialogBody": "{amount} bakiyene eklendi. Sonraki 3 vardiyada net kazancının %20'si kesilecek (vardiya başına max 🪙 200).",
+  "@emergencyAdvanceDialogBody": {
+    "placeholders": {"amount": {"type": "String"}}
+  },
+  "emergencyAdvanceDialogClose": "Anladım",
+
+  "stockZeroDialogTitle": "Tüm stoğun bitti",
+  "stockZeroDialogBody": "Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt.",
+  "stockZeroDialogBodyWithAdvance": "Vardiya başlatamazsın. Önce Sipariş sekmesinden mal getirt. Sana bir kerelik {amount} avans verildi.",
+  "@stockZeroDialogBodyWithAdvance": {
+    "placeholders": {"amount": {"type": "String"}}
+  },
+  "stockZeroDialogClose": "Sipariş ekranına git"
+}

@@ -1,0 +1,83 @@
+# =====================================================
+# Barcode Boss — .gitignore
+# =====================================================
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- IDE ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.code-workspace
+
+# --- Flutter / Dart / Pub ---
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# NOTE: pubspec.lock IS committed (app, not library).
+
+# --- Symbolication / Obfuscation ---
+app.*.symbols
+app.*.map.json
+
+# --- Android ---
+android/.gradle/
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/**/GeneratedPluginRegistrant.java
+android/key.properties
+*.jks
+*.keystore
+
+# --- iOS ---
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Flutter/flutter_export_environment.sh
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# --- Firebase ---
+# google-services.json IS committed (private repo, no exfil risk).
+# If you go open-source: uncomment line below.
+# android/app/google-services.json
+# ios/Runner/GoogleService-Info.plist
+
+# --- Asset pipeline raw kaynaklar ---
+# 3D modeller + Blender .blend dosyaları çok büyük; raw'da kalır, render'lar commit'lenir.
+assets/_raw/
+*.blend1
+*.blend2
+
+# --- Logs ---
+*.log
+crash_*.txt
+
+# --- Python (Blender script venv'i varsa) ---
+__pycache__/
+*.pyc
+*.pyo
+tools/.venv/
+
+# --- macOS ---
+.AppleDouble
+.LSOverride

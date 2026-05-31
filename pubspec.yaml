@@ -1,0 +1,91 @@
+name: barcode_boss
+description: "Bir mobil kasiyer/süpermarket simülatörü. Flutter + Flame ile."
+publish_to: 'none'
+
+# Semantic versioning: major.minor.patch+buildNumber
+# v0.1.0 = Faz 0 setup tamamlandığında ilk runnable iskelet
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # --- State management ---
+  flutter_riverpod: ^2.5.0
+
+  # --- Game engine ---
+  flame: ^1.18.0
+  flame_audio: ^2.10.0
+
+  # --- Persistence (lokal save) ---
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # --- i18n + number formatlama ---
+  intl: ^0.20.0  # flutter_localizations SDK ile uyumlu (Flutter 3.38)
+
+  # --- Routing ---
+  go_router: ^14.0.0
+
+  # --- Firebase (Faz 4'te aktive edilir) ---
+  # NOTE: Faz 4'e (Telemetri) kadar devre dışı. Bu paketler native config
+  # (google-services.json + gradle plugin) gerektirir ve Windows desktop'ta
+  # derlenmez; vertical slice'ı çalışır tutmak için yorumda. Faz 4'te aç:
+  firebase_core: ^3.0.0
+  firebase_analytics: ^11.0.0
+  firebase_crashlytics: ^4.0.0
+  firebase_remote_config: ^5.0.0
+  
+  # --- Animation polish ---
+  flutter_animate: ^4.5.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.0
+  hive_generator: ^2.0.0
+  # App icon generator (Faz 5). `dart run flutter_launcher_icons` ile
+  # assets/icon/app_icon.png'den tüm Android density'leri üretir.
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true            # ic_launcher.png her density için üretir
+  ios: false               # Android-only proje
+  remove_alpha_ios: true
+  image_path: "assets/icon/app_icon.png"
+  # Modern adaptive icon (Android 8+): foreground PNG + arka plan rengi.
+  # Foreground 1024×1024, görsel ortalanmış olmalı (köşeler kırpılır).
+  adaptive_icon_background: "#FFF3E0"   # tema bej (AppColors.background)
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true
+  generate: true  # gen_l10n çalıştırır (lib/l10n/app_*.arb → AppLocalizations)
+
+  assets:
+    - assets/data/
+    - assets/icon/
+    - assets/images/products/
+    - assets/images/props/
+    - assets/images/ui/
+    - assets/images/customers/
+    - assets/images/backgrounds/
+    - assets/audio/sfx/
+    - assets/audio/music/
+
+  fonts:
+    # Nunito variable font (wght ekseni). Flutter, FontWeight.w400/w600/w700'ü
+    # çalışma anında bu tek dosyadan çözer — GDD'deki 3 statik dosya yerine.
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-VariableFont_wght.ttf

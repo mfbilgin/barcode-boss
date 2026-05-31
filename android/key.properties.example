@@ -1,0 +1,15 @@
+# Release imzalama keystore yapılandırması.
+#
+# 1. Bu dosyayı `key.properties` olarak kopyala (gitignore'da — commit'lenmez).
+# 2. `keytool -genkey -v -keystore barcode-boss-release.jks \
+#       -keyalg RSA -keysize 2048 -validity 10000 -alias barcode_boss`
+#    komutuyla keystore üret (alias ve şifreyi NOT EDİP SAKLA — kaybedersen
+#    Play Store'a aynı paket adıyla bir daha güncelleme atamazsın).
+# 3. Üretilen .jks dosyasını proje DIŞINDA güvenli bir yere koy
+#    (örn. ~/keystores/barcode-boss-release.jks).
+# 4. Aşağıdaki yolları kendi makinene göre düzenle.
+
+storePassword=DEĞİŞTİR_keystore_olusturuken_verdiğin_şifre
+keyPassword=DEĞİŞTİR_alias_için_verilen_şifre
+keyAlias=barcode_boss
+storeFile=C:/Users/PC/keystores/barcode-boss-release.jks

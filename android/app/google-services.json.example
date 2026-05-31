@@ -1,0 +1,30 @@
+{
+  "_comment": "Bu yalnız ŞABLON. Gerçek dosya için: Firebase Console > Project Settings > Android app > Download google-services.json. İndirdiğin dosyayı 'google-services.json' olarak android/app/ altına koy (uzantıdaki '.example' kalmamalı). Detaylı setup için: docs/firebase-setup.md",
+  "project_info": {
+    "project_number": "<FIREBASE_PROJECT_NUMBER>",
+    "project_id": "<FIREBASE_PROJECT_ID>",
+    "storage_bucket": "<FIREBASE_PROJECT_ID>.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:<FIREBASE_PROJECT_NUMBER>:android:<APP_ID_HEX>",
+        "android_client_info": {
+          "package_name": "com.mfbilgin.barcode_boss"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "<FIREBASE_ANDROID_API_KEY>"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
